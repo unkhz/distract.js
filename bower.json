@@ -1,0 +1,30 @@
+{
+  "name": "distract.js",
+  "main": "dist/distract.min.js",
+  "version": "0.0.1a",
+  "homepage": "https://github.com/unkhz/distract.js",
+  "authors": [
+    "Juhani Pelli <juhani.pelli@gmail.com>"
+  ],
+  "description": "Distract your audience",
+  "keywords": [
+    "javascript",
+    "css",
+    "transition",
+    "translate",
+    "rotate",
+    "scale",
+    "skew",
+    "3d"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  }
+}
