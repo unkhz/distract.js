@@ -1,7 +1,7 @@
 {
-  "name": "distract",
+  "name": "distractjs",
   "description": "The post-flash JavaScript library for creating useless, resource hungry, migraine inducing animations",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "engines": {
     "node": ">=0.10.10",
     "npm": ">=1.2.15"
@@ -18,5 +18,20 @@
   },
   "scripts": {
     "build": "grunt"
-  }
+  },
+  "main": "dist/distract.min.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com:unkhz/distract.js.git"
+  },
+  "author": "Juhani Pelli <juhani.pelli@gmail.com> (https://github.com/unkhz/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/unkhz/distract.js/issues"
+  },
+  "homepage": "https://github.com/unkhz/distract.js"
 }

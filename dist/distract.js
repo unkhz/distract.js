@@ -190,9 +190,13 @@
  */
     ParticleOptions.prototype.className = "";
     /**
- * A multiplier defining the speed of the iteration. If the value is 1 or larger,
+ * A multiplier for the frame rate of the animation. If the value is 1 or larger,
  * the particle state will be iterated on every animation step. Values smaller than 0
  * will cause the particle state to be static.
+ *
+ * So, the smaller the value, the more jerky the animation will be. To affect the
+ * speed of the animation without touching the frame rate, use the speed property in
+ * the iteration rule.
  *
  * @type {Number}
  */
@@ -235,7 +239,10 @@
         }
     };
     /**
- * The initial state of the particle. Can be either a function or a plain object.
+ * The initial state of the particle. Can be either a function or a plain object. Note that if
+ * you use a plain object, it will be used as the state for __all__ of the particles. This is useful
+ * when you want to create trailing animations. For independent particles, the initial state should
+ * be created with a function.
  *
  * @param {Number}          id          The numeric ID of the particle instance
  * @param {ParticleOptions} opts        The ParticleOptions instance

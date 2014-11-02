@@ -31,7 +31,7 @@ module.exports = function(grunt) {
 						beautify:true
 					},
 					files: {
-						'<%= dir.dist %>/<%= pkg.name %>.js': files
+						'<%= dir.dist %>/distract.js': files
 					}
 				},
 				minified : {
@@ -45,7 +45,7 @@ module.exports = function(grunt) {
 						beautify:false
 					},
 					files: {
-						'<%= dir.dist %>/<%= pkg.name %>.min.js': files
+						'<%= dir.dist %>/distract.min.js': files
 					}
 				}
 			},

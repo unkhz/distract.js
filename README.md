@@ -90,5 +90,5 @@ configuration. The above example defines only one rule
 
 ## Changelog
 
-    0.0.2  2014-11-02   Documentation and examples
+    0.1.0  2014-11-02   Documentation and examples
     0.0.1  2013-12-23   Initial release

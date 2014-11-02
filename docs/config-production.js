@@ -7,6 +7,7 @@ var runtimeConfig = {
 var buildtimeConfig = {
   client: {
     debug: false,
+    appModule: 'distractDocs',
     stylesheets: [
       runtimeConfig.baseUrl + 'main.css',
       runtimeConfig.baseUrl + 'icons.css'
@@ -52,7 +53,7 @@ var buildtimeConfig = {
     detectGlobals: true,
     insertGlobals: true,
     debug: false,
-    enableUglify: true
+    enableUglify: false
   },
   tasks: {
     default: ['dist']
