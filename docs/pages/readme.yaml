@@ -1,0 +1,10 @@
+id: readme
+title: Readme
+abbr: Readme
+isFrontPage: true
+ord: 1
+styles:
+  - distract
+features:
+  - content
+contentFromFile: ../../README.md

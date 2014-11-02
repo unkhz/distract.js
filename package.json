@@ -1,19 +1,20 @@
-  {
+{
   "name": "distract",
   "description": "The post-flash JavaScript library for creating useless, resource hungry, migraine inducing animations",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": ">=0.10.10",
     "npm": ">=1.2.15"
   },
   "private": false,
-  "dependencies": {
-    "grunt": "0.4.x",
-    "grunt-contrib-watch": "0.5.x",
-    "grunt-contrib-clean": "0.5.x",
-    "grunt-contrib-uglify": "0.2.x"
-  },
   "devDependencies": {
+    "almost-static-site": "latest",
+    "grunt": "latest",
+    "grunt-contrib-clean": "latest",
+    "grunt-contrib-uglify": "latest",
+    "grunt-contrib-watch": "latest",
+    "highlight.js": "^8.3.0",
+    "lodash": "^2.4.1"
   },
   "scripts": {
     "build": "grunt"
