@@ -26,7 +26,7 @@ All functionality is exposed via the Distract global object, unless you're using
 
 Distract.Layer is the main controller of your animation. The following example will create an animation with five individual 'Hello World!' texts rotating randomly around their X and Y axis.
 
-[You can also fiddle with it in plunkr](http://plnkr.co/edit/aZzdCDsCtb0X48XPuZnb?p=preview)
+[You can also fiddle with it in plunkr](http://plnkr.co/edit/edpxVL?p=preview)
 
 
     var helloLayer = new Distract.Layer({
@@ -68,7 +68,7 @@ Distract.Layer is the main controller of your animation. The following example w
           delta: 0,
           style: {
             transform: {
-              perspective:[200,''],
+              perspective:[300,'px'],
               rotateX:[0,'deg'],
               rotateY:[0,'deg']
             }

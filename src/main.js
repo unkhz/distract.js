@@ -106,11 +106,12 @@ function getStyleProperty(property) {
     var returnProperty;
     if (testEl.style[property] !== undefined) {
         returnProperty = property;
-    }
-    for (var i = 0, prefixes = [ "webkit", "moz", "o", "ms" ], len = prefixes.length; i < len; i++) {
-        var prefixedProperty = prefixes[i] + property.charAt(0).toUpperCase() + property.slice(1);
-        if (document.body.style[prefixedProperty] !== undefined) {
-            returnProperty = prefixedProperty;
+    } else {
+        for (var i = 0, prefixes = [ "webkit", "moz", "Moz", "o", "ms" ], len = prefixes.length; i < len; i++) {
+            var prefixedProperty = prefixes[i] + property.charAt(0).toUpperCase() + property.slice(1);
+            if (document.body.style[prefixedProperty] !== undefined) {
+                returnProperty = prefixedProperty;
+            }
         }
     }
     return propertyCache[property] = returnProperty;
