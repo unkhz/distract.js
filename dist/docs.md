@@ -102,9 +102,13 @@ CSS class of the particle element
 **Type**: `String`  
 <a name="module_Distract..ParticleOptions#iterationSpeed"></a>
 ###particleOptions.iterationSpeed
-A multiplier defining the speed of the iteration. If the value is 1 or larger,
+A multiplier for the frame rate of the animation. If the value is 1 or larger,
 the particle state will be iterated on every animation step. Values smaller than 0
 will cause the particle state to be static.
+
+So, the smaller the value, the more jerky the animation will be. To affect the
+speed of the animation without touching the frame rate, use the speed property in
+the iteration rule.
 
 **Type**: `Number`  
 <a name="module_Distract..ParticleOptions#respawn"></a>
@@ -139,7 +143,10 @@ this method to parse them according to the desired behavior.
 
 <a name="module_Distract..ParticleOptions#initState"></a>
 ###particleOptions.initState(id, opts)
-The initial state of the particle. Can be either a function or a plain object.
+The initial state of the particle. Can be either a function or a plain object. Note that if
+you use a plain object, it will be used as the state for __all__ of the particles. This is useful
+when you want to create trailing animations. For independent particles, the initial state should
+be created with a function.
 
 **Params**
 
