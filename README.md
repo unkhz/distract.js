@@ -12,11 +12,13 @@ The post-flash JavaScript library for creating useless, resource hungry, migrain
   * Pure JavaScript, no library dependencies
   * Uses requestAnimationFrame for maximum performance
 
-## Demo
+## Demos and examples
 
-**WARNING!** The demo __will__ cause older iPhones to become unresponsive, so please be careful.
+**WARNING!** The screensaver demo __will__ cause older iPhones to become unresponsive, so please be careful.
 
-[un.khz.fi/screensaver](http://un.khz.fi/screensaver)
+  * [un.khz.fi/screensaver](http://un.khz.fi/screensaver)
+  * [Hello world example in Plunker](http://plnkr.co/edit/edpxVL?p=preview)
+  * [Simple SVG example in Plunker](http://plnkr.co/edit/773Cms?p=preview)
 
 ## Installation
 
