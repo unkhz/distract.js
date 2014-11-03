@@ -4,6 +4,14 @@ The post-flash JavaScript library for creating useless, resource hungry, migrain
 
 [github.com/unkhz/distract.js/](https://github.com/unkhz/distract.js/)
 
+## Features
+
+  * Simplifies creation of generative animations
+  * Works with HTML or SVG
+  * Detects vendor specific CSS properties and uses only one
+  * Pure JavaScript, no library dependencies
+  * Uses requestAnimationFrame for maximum performance
+
 ## Demo
 
 **WARNING!** The demo __will__ cause older iPhones to become unresponsive, so please be careful.
@@ -20,11 +28,15 @@ Using bower
 
     bower install --save distractjs
 
+## Documentation
+
+  * [API documentation](http://distractjs.khz.fi/jsdoc)
+
 ## Quick example
 
-All functionality is exposed via the Distract global object, unless you're using anonymous modules in which case there will be no global variables used.
+All functionality is exposed via the Distract global object, unless you're using anonymous modules in which case no global variables will be used.
 
-Distract.Layer is the main controller of your animation. The following example will create an animation with five individual 'Hello World!' texts rotating randomly around their X and Y axis.
+The following example will create an animation with five individual 'Hello World!' texts rotating randomly around their X and Y axis.
 
 [You can also fiddle with it in Plunker](http://plnkr.co/edit/edpxVL?p=preview)
 
@@ -77,16 +89,11 @@ Distract.Layer is the main controller of your animation. The following example w
       }
     });
 
-The first argument is the configuration object for the Layer. Distract.LayerOptions
-will be used as the base configuration and the specified values will be overridden.
+`Distract.Layer` is the main controller and container of the animation. Upon instantiation it will automatically start creating new instances of `Distract.Particle` which represent the individual moving elements.
 
-The second argument is the configuration object for the Particles that will be generated
-inside the Layer's DOM element and animated according to the rules that you define in the
-configuration. The above example defines only one rule
+The first argument of the `new Distract.Layer()` constructor is the configuration object for the Layer. Specified values will override ones from the base configuration `Distract.LayerOptions`.
 
-## Documentation
-
-  * [API documentation](http://distractjs.khz.fi/jsdoc)
+The second argument is the configuration object for the `Distract.Particle` instances that animated according to the rules that you define in the configuration. The above example defines three simple rules that manipulate the rotateX and rotateY transform functions. Partile configuration is also extended into the defaults defined in `Distract.ParticleOptions`.
 
 ## Changelog
 

@@ -14,14 +14,13 @@
 }(this, function (root) {
 
 /**
- * @module Distract
+ * @namespace Distract
  */
 var Distract = {};
 
 
 ////////////////////////////////////////////////////
 // Utility methods /////////////////////////////////
-
 /**
  * Merge two or more objects together from right to left. The object given as the first argument
  * will be modified and returned.
@@ -77,7 +76,7 @@ function getValue(obj, property, args, defaultValue) {
 
 /**
  * Cross-browser requestAnimationFrame
-
+ *
  * @external
  * @type {Function}
  * @private
@@ -160,27 +159,32 @@ function pickParticleOpts(id, opts) {
 // ParticleOptions /////////////////////////////////
 
 /**
- * @classdesc Particle options (Strategy) defines the behavior of a Particle instance
+ * @classdesc
+ * The base class for Particle instance configuration
+ *
  * @class ParticleOptions
+ * @memberOf  Distract
  * @param {Object} opts Plain object containing the data to be extended into the ParticleOptions instance
  */
-var ParticleOptions = function(opts){
+Distract.ParticleOptions = function(opts){
     extend(this, opts);
 };
 
 /**
- * Default ParticleOptions iteration uses this simple iteration rule to
+ * Default ParticleOptions uses this simple iteration rule to
  * modify a single style property (or property function) of the
- * DOM element representing the Particle.
+ * DOM element representing the Particle. Each of the properties can
+ * be defined as a function as well.
  *
  * @typedef SimpleIterationRule
- * @property {Function} property            The style property to be manipulated
- * @property {Function} [propertyFunction]  The possible property function of the style property E.g a specific CSS transform function
- * @property {Number} inc                   The numeric increment to be added to the value of the style property / function
- * @property {Function} [speed=1]           The multiplier which defines the speed of the animation
- * @property {Function} [max=Infinity]      The maximum value to which the set value should be constrained to
- * @property {Function} [min=-Infinity]     The minimum value to which the set value should be constrained to
- * @property {Function} [parse]             If defined, this method will be called to parse the rule instead of the generic ParticleOptions.parseIterationRule method
+ * @memberOf Distract
+ * @property {String} property            The style property to be manipulated
+ * @property {String} [propertyFunction]  The possible property function of the style property E.g a specific CSS transform function
+ * @property {Number} inc                 The numeric increment to be added to the value of the style property / function
+ * @property {Number} [speed=1]           The multiplier which defines the speed of the animation
+ * @property {Number} [max=Infinity]      The maximum value to which the set value should be constrained to
+ * @property {Number} [min=-Infinity]     The minimum value to which the set value should be constrained to
+ * @property {Function} [parse]           If defined, this method will be called to parse the rule instead of the generic ParticleOptions.parseIterationRule method
  *
  */
 
@@ -194,15 +198,17 @@ var callbackParticleOpts = ['initState', 'iterateState', 'parseIterationRule'];
 
 /**
  * Contents of the particle element
- * @type {String}
+ * @property {String} text
+ * @memberOf Distract.ParticleOptions
  */
-ParticleOptions.prototype.text = 'undefined';
+Distract.ParticleOptions.prototype.text = 'undefined';
 
 /**
  * CSS class of the particle element
  * @type {String}
+ * @memberOf Distract.ParticleOptions
  */
-ParticleOptions.prototype.className = '';
+Distract.ParticleOptions.prototype.className = '';
 
 /**
  * A multiplier for the frame rate of the animation. If the value is 1 or larger,
@@ -214,26 +220,29 @@ ParticleOptions.prototype.className = '';
  * the iteration rule.
  *
  * @type {Number}
+ * @memberOf Distract.ParticleOptions
  */
-ParticleOptions.prototype.iterationSpeed = 1;
+Distract.ParticleOptions.prototype.iterationSpeed = 1;
 
 /**
  * If true, the Layer will create a new particle instance in each animation step and
  * start destroying oldest existing one when the particle limit has been reached.
  *
  * @type {Boolean}
+ * @memberOf Distract.ParticleOptions
  */
-ParticleOptions.prototype.respawn = false;
+Distract.ParticleOptions.prototype.respawn = false;
 
 /**
  * A list of the iteration rules to be used for determining the new visual state
  * of the particle. The default ParticleOptions behavior is to go through all
- * rules on every iteration. I is also expected that the iteration rules are of
+ * rules on every iteration. It is also expected that the iteration rules are of
  * SimpleIterationRule type.
  *
  * @type {Array}
+ * @memberOf Distract.ParticleOptions
  */
-ParticleOptions.prototype.iterationRules = [];
+Distract.ParticleOptions.prototype.iterationRules = [];
 
 /**
  * Parses a single rule in the iterationRules collection. Defaults to parsing
@@ -243,12 +252,13 @@ ParticleOptions.prototype.iterationRules = [];
  * You can change the behavior by defining your own iteration rules and overriding
  * this method to parse them according to the desired behavior.
  *
- * @param {SimpleIterationRule} rule The rule instance to be parsed
+ * @param {Distract.SimpleIterationRule} rule The rule instance to be parsed
  * @param {Object}          state   The current visual state of the Particle
- * @param {ParticleOptions} opts    The ParticleOptions instance of the Particle
- * @param {Particle}        particle The Particle instance
+ * @param {Distract.ParticleOptions} opts    The ParticleOptions instance of the Particle
+ * @param {Distract.Particle}        particle The Particle instance
+ * @memberOf Distract.ParticleOptions
  */
-ParticleOptions.prototype.parseIterationRule = function(rule, state, opts, particle) {
+Distract.ParticleOptions.prototype.parseIterationRule = function(rule, state, opts, particle) {
     var property = getValue(rule, 'property', arguments),
         propertyFunction = getValue(rule, 'propertyFunction', arguments),
         inc = getValue(rule, 'inc', arguments),
@@ -273,9 +283,10 @@ ParticleOptions.prototype.parseIterationRule = function(rule, state, opts, parti
  * be created with a function.
  *
  * @param {Number}          id          The numeric ID of the particle instance
- * @param {ParticleOptions} opts        The ParticleOptions instance
+ * @param {Distract.ParticleOptions} opts        The ParticleOptions instance
+ * @memberOf Distract.ParticleOptions
  */
-ParticleOptions.prototype.initState = function(particle, opts) {
+Distract.ParticleOptions.prototype.initState = function(particle, opts) {
     return {
         style:{}
     };
@@ -288,12 +299,13 @@ ParticleOptions.prototype.initState = function(particle, opts) {
  * plain object. Default behavior is to call the parse method of a rule or the generic
  * parseIterationRule method if a rule specific parse method does not exist.
  *
- * @param {Particle}        particle    The Particle instance
+ * @param {Distract.Particle}        particle    The Particle instance
  * @param {Object}          state       A model object representing the current visual state of the Particle
- * @param {ParticleOptions} opts        The ParticleOptions instance
+ * @param {Distract.ParticleOptions} opts        The ParticleOptions instance
  * @return {Object} The modified version of the model object representing the current visual state of the Particle
+ * @memberOf Distract.ParticleOptions
  */
-ParticleOptions.prototype.iterateState = function(particle, state, opts) {
+Distract.ParticleOptions.prototype.iterateState = function(particle, state, opts) {
     for ( var i=0, ilen=opts.iterationRules.length; i<ilen; i++ ) {
         var rule = opts.iterationRules[i];
         (rule.parse ? rule.parse : opts.parseIterationRule)(rule,state,opts,particle);
@@ -303,19 +315,24 @@ ParticleOptions.prototype.iterateState = function(particle, state, opts) {
 
 
 ////////////////////////////////////////////////////
-// Particle (Presenter) ////////////////////////////
+// Particle ////////////////////////////////////////
 
 /**
- * Particle (Presenter) controls a single DOM element (View) and it's state (Model)
+ * @classdesc
+ * Particle represents and controls a single animation element and it's state. It
+ * handles requesting animation frames for itself, parses the iteration rules that
+ * define the changes for each animation frame and updates the DOM element style
+ * attribute accordingly.
  *
  * @class Particle
+ * @memberOf Distract
  * @param {Object}  props       Configuration properties to be extended to the particle instance
  * @param {Number}  props.id    Numeric ID of the Particle,
  * @param {Element} props.el    DOM element representing the Particle
- * @param {Layer}   props.layer The parent Layer of the Particle
- * @param {ParticleOptions} props.opts The options object that defines the configuration for the Particle
+ * @param {Distract.Layer}   props.layer The parent Layer of the Particle
+ * @param {Distract.ParticleOptions} props.opts The options object that defines the configuration for the Particle
  */
-var Particle = function(props) {
+Distract.Particle = function(props) {
     extend(this, props);
     this.state = getValue(this.opts, 'initState', [this.id, this.opts], {});
     this.animate();
@@ -323,8 +340,9 @@ var Particle = function(props) {
 
 /**
  * Start animating the Particle instance
+ * @memberOf Distract.Particle
  */
-Particle.prototype.animate = function() {
+Distract.Particle.prototype.animate = function() {
     var _this = this;
     var step = function(){
         if ( !_this.destruct ) {
@@ -348,16 +366,18 @@ Particle.prototype.animate = function() {
 
 /**
  * Start destroying the Particle instance
+ * @memberOf Distract.Particle
  */
-Particle.prototype.destroy = function() {
+Distract.Particle.prototype.destroy = function() {
     this.destruct = true;
     this.destructOpacity = 1;
 };
 
 /**
  * Iterate and apply the visual state of the Particle to the related DOM element
+ * @memberOf Distract.Particle
  */
-Particle.prototype.render = function() {
+Distract.Particle.prototype.render = function() {
     var prop,opts = this.opts;
 
     // Initialize content if needed
@@ -386,57 +406,67 @@ Particle.prototype.render = function() {
 };
 
 ////////////////////////////////////////////////////
-// LayerOptions (Model) ////////////////////////////
+// LayerOptions ////////////////////////////////////
 
 /**
- * Layer options define the configuration of a Layer instance
+ * @classdesc
+ * The base class for Layer instance configuration
+ *
  * @class LayerOptions
+ * @memberOf Distract
  * @param {Object} opts Object containing the data to be extended to the LayerOptions instance
  */
-var LayerOptions = function(opts) {
+Distract.LayerOptions = function(opts) {
     extend(this, opts);
 };
 
 /**
  * Do we show the layer? If enabled is set to false during runtime, the layer will self destruct.
  * @type {Boolean}
+ * @memberOf Distract.LayerOptions
  */
-LayerOptions.prototype.enabled = true;
+Distract.LayerOptions.prototype.enabled = true;
 
 /**
  * The DOM element representing the Layer
  * @type {Element}
+ * @memberOf Distract.LayerOptions
  */
-LayerOptions.prototype.el = document.body;
+Distract.LayerOptions.prototype.el = document.body;
 
 /**
  * Should return a new element for a child Particle instance of the Layer
  * @type {Function}
+ * @memberOf Distract.LayerOptions
  */
-LayerOptions.prototype.particleEl = function(id, opts) {
+Distract.LayerOptions.prototype.particleEl = function(id, opts) {
     return document.createElement('div');
 };
 
 /**
  * Target count of the particle elements. Total count may be bigger if particle respawning is
  * enabled.
- *
  * @type {Number}
+ * @memberOf Distract.LayerOptions
  */
-LayerOptions.prototype.particleCount = 8;
+Distract.LayerOptions.prototype.particleCount = 8;
 
 
 ////////////////////////////////////////////////////
 // Layer ///////////////////////////////////////////
 
 /**
- * Layer is a container and controller of [Particles](Particle).
+ * @classdesc
+ * Layer is a container and controller of Particles. Layer has the responsibility of creating,
+ * and destroying the Particle instances. It also handles garbage cleaning of Particle instances
+ * that have proactively decided to destroy themselves.
  *
  * @class Layer
- * @param {LayerOptions} layerOpts Options object that defines the configuration of the Layer
- * @param {ParticleOptions} particleOpts Options object that defines the configuration of the Particles inside this Layer
+ * @param {Distract.LayerOptions} layerOpts Options object that defines the configuration of the Layer
+ * @param {Distract.ParticleOptions} particleOpts Options object that defines the configuration of the Particles inside this Layer
+ * @memberOf Distract
  */
-function Layer(layerOpts, particleOpts) {
+Distract.Layer = function(layerOpts, particleOpts) {
     this.opts = new LayerOptions();
     this.particleOpts = new ParticleOptions();
 
@@ -455,10 +485,11 @@ function Layer(layerOpts, particleOpts) {
 
 /**
  * Configure the Layer instance
- * @param {LayerOptions} layerOpts Options object that defines the configuration of the Layer
- * @param {ParticleOptions} particleOpts Options object that defines the configuration of the Particles inside this Layer
+ * @param {Distract.LayerOptions} layerOpts Options object that defines the configuration of the Layer
+ * @param {Distract.ParticleOptions} particleOpts Options object that defines the configuration of the Particles inside this Layer
+ * @memberOf Distract.Layer
  */
-Layer.prototype.configure = function(layerOpts, particleOpts) {
+Distract.Layer.prototype.configure = function(layerOpts, particleOpts) {
     extend(this.opts, layerOpts);
     extend(this.particleOpts, particleOpts);
     this.particlesToBeDestroyed.concat(this.particles || []);
@@ -466,16 +497,18 @@ Layer.prototype.configure = function(layerOpts, particleOpts) {
 };
 
 /**
- * Stop animating the Layer without destroying its state
+ * Stop creating and destroying particles inside the Layer without destroying its state
+ * @memberOf Distract.Layer
  */
-Layer.prototype.pause = function() {
+Distract.Layer.prototype.pause = function() {
     this.paused = true;
 };
 
 /**
- * Start animating the Layer
+ * Start creating and destroying particles inside the Layer
+ * @memberOf Distract.Layer
  */
-Layer.prototype.animate = function() {
+Distract.Layer.prototype.animate = function() {
     this.paused = false;
     var _this=this;
     var createParticle = function(){
@@ -520,11 +553,6 @@ Layer.prototype.animate = function() {
     requestAnimationFrame(createParticle);
 };
 
-return Distract = {
-    LayerOptions:LayerOptions,
-    Layer:Layer,
-    ParticleOptions:ParticleOptions,
-    Particle:Particle
-};
+return Distract;
 
 }));
