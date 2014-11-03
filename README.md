@@ -14,11 +14,11 @@ The post-flash JavaScript library for creating useless, resource hungry, migrain
 
 Using npm
 
-    npm install --save distract.js
+    npm install --save distractjs
 
 Using bower
 
-    bower install --save distract.js
+    bower install --save distractjs
 
 ## Quick example
 
@@ -26,7 +26,7 @@ All functionality is exposed via the Distract global object, unless you're using
 
 Distract.Layer is the main controller of your animation. The following example will create an animation with five individual 'Hello World!' texts rotating randomly around their X and Y axis.
 
-[You can also fiddle with it in plunkr](http://plnkr.co/edit/edpxVL?p=preview)
+[You can also fiddle with it in Plunker](http://plnkr.co/edit/edpxVL?p=preview)
 
 
     var helloLayer = new Distract.Layer({
