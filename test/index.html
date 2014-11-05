@@ -48,9 +48,15 @@
         font:normal 20px HelveticaNeue;
         color:red;
     }
+    svg#l-svg {
+        display:block;
+        width:100%;
+        height:33%;
+    }
     </style>
 </head>
 <body>
+    <svg id="l-svg" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"></svg>
     <div id="l1" class="layer layer-a"></div>
     <div id="l2" class="layer layer-b"></div>
     <script type="text/javascript">
@@ -207,6 +213,38 @@
             iterationSpeed:0,
             iterationRules:rules,
             initState:initState
+        });
+        var l3 = new Distract.Layer({
+            el:document.getElementById('l-svg'),
+            particleCount:3,
+            particleEl: function(){
+                var el = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                el.setAttributeNS(null, "d", "m" +
+                    Math.round(Math.random()*100) + "," +
+                    Math.round(Math.random()*50) + " 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z");
+                return el;
+            }
+        },{
+            iterationSpeed:0.1,
+            iterationRules:[[
+                {
+                    parse:function(rule, state, opts, particle) {
+                        state.attributes.fill[0] = 'rgb(' +
+                            Math.round(Math.random()*255) + ',' +
+                            Math.round(Math.random()*255) + ',' +
+                            Math.round(Math.random()*255) + ')';
+                    }
+                }
+            ]],
+            initState:function(){
+                return {
+                    attributes: {
+                        fill: ['rgb(0,55,255)',''],
+                        x: [Math.round(Math.random()*100),''],
+                        y: [Math.round(Math.random()*100),'']
+                    }
+                }
+            }
         });
     </script>
 

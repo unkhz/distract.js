@@ -99,5 +99,6 @@ The second argument is the configuration object for the `Distract.Particle` inst
 
 ## Changelog
 
+    0.1.2  2014-11-05   Ability to set attributes for SVG
     0.1.0  2014-11-02   Documentation and examples
     0.0.1  2013-12-23   Initial release

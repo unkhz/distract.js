@@ -4,6 +4,7 @@
 
 * [Distract](#Distract)
   * [type: Distract.SimpleIterationRule](#Distract.SimpleIterationRule)
+  * [type: Distract.ParticleState](#Distract.ParticleState)
   * [class: Distract.ParticleOptions](#Distract.ParticleOptions)
     * [new Distract.ParticleOptions(opts)](#new_Distract.ParticleOptions)
     * [particleOptions.text](#Distract.ParticleOptions#text)
@@ -27,6 +28,7 @@
     * [layerOptions.particleEl()](#Distract.LayerOptions#particleEl)
   * [class: Distract.Layer](#Distract.Layer)
     * [new Distract.Layer(layerOpts, particleOpts)](#new_Distract.Layer)
+    * [layer.particles](#Distract.Layer#particles)
     * [layer.configure(layerOpts, particleOpts)](#Distract.Layer#configure)
     * [layer.pause()](#Distract.Layer#pause)
     * [layer.animate()](#Distract.Layer#animate)
@@ -47,6 +49,33 @@ be defined as a function as well.
 - max `Number` - The maximum value to which the set value should be constrained to  
 - min `Number` - The minimum value to which the set value should be constrained to  
 - parse `function` - If defined, this method will be called to parse the rule instead of the generic ParticleOptions.parseIterationRule method  
+
+<a name="Distract.ParticleState"></a>
+##type: Distract.ParticleState
+ParticleState contains the visual state of a Particle. IterationRules should
+modify the ParticleState instance so that the visual state is changed.
+
+Style can be defined as
+
+  * Array: [value, unit]
+  * Object: {transformFunction:[value, unit]}
+
+Example:
+
+    style: {
+        width:[100,'%'],
+        color:['rgb(255,255,255)',''],
+        opacity:[0.66,''],
+        transform:{
+            translateX: [0,'px'],
+            rotateY: [180,'deg']
+        }
+    }
+
+**Properties**
+
+- style `Object` - Plain object containing style rules to be added to the Particle element's style  
+- attributes `Object` - Plain object containing attributes to be added to the Particle element  
 
 <a name="Distract.ParticleOptions"></a>
 ##class: Distract.ParticleOptions
@@ -121,7 +150,7 @@ this method to parse them according to the desired behavior.
 **Params**
 
 - rule <code>[SimpleIterationRule](#Distract.SimpleIterationRule)</code> - The rule instance to be parsed  
-- state `Object` - The current visual state of the Particle  
+- state <code>[ParticleState](#Distract.ParticleState)</code> - The current visual state of the Particle  
 - opts <code>[ParticleOptions](#Distract.ParticleOptions)</code> - The ParticleOptions instance of the Particle  
 - particle <code>[Particle](#Distract.Particle)</code> - The Particle instance  
 
@@ -147,7 +176,7 @@ parseIterationRule method if a rule specific parse method does not exist.
 **Params**
 
 - particle <code>[Particle](#Distract.Particle)</code> - The Particle instance  
-- state `Object` - A model object representing the current visual state of the Particle  
+- state <code>[ParticleState](#Distract.ParticleState)</code> - A model object representing the current visual state of the Particle  
 - opts <code>[ParticleOptions](#Distract.ParticleOptions)</code> - The ParticleOptions instance  
 
 **Returns**: `Object` - The modified version of the model object representing the current visual state of the Particle  
@@ -238,6 +267,7 @@ that have proactively decided to destroy themselves.
 
 * [class: Distract.Layer](#Distract.Layer)
   * [new Distract.Layer(layerOpts, particleOpts)](#new_Distract.Layer)
+  * [layer.particles](#Distract.Layer#particles)
   * [layer.configure(layerOpts, particleOpts)](#Distract.Layer#configure)
   * [layer.pause()](#Distract.Layer#pause)
   * [layer.animate()](#Distract.Layer#animate)
@@ -249,6 +279,11 @@ that have proactively decided to destroy themselves.
 - layerOpts <code>[LayerOptions](#Distract.LayerOptions)</code> - Options object that defines the configuration of the Layer  
 - particleOpts <code>[ParticleOptions](#Distract.ParticleOptions)</code> - Options object that defines the configuration of the Particles inside this Layer  
 
+<a name="Distract.Layer#particles"></a>
+###layer.particles
+The list of the Particle instances belonging to the Layer
+
+**Type**: `Array`  
 <a name="Distract.Layer#configure"></a>
 ###layer.configure(layerOpts, particleOpts)
 Configure the Layer instance
