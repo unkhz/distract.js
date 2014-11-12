@@ -295,20 +295,27 @@ Configure the Layer instance
 - layerOpts <code>[LayerOptions](#Distract.LayerOptions)</code> - Options object that defines the configuration of the Layer  
 - particleOpts <code>[ParticleOptions](#Distract.ParticleOptions)</code> - Options object that defines the configuration of the Particles inside this Layer  
 
+**Returns**: `Layer` - returns the layer instace for chaining  
 <a name="Distract.Layer#pause"></a>
 ###layer.pause()
 Pause the operation of the Layer and Partciles without destroying them. Note that this should only
 be used when there is an intention to continue the animation. Use destroy method instead if you
 need to clear the resources used by the layer.
 
+**Returns**: `Layer` - returns the layer instace for chaining  
 <a name="Distract.Layer#destroy"></a>
 ###layer.destroy()
 Stop creating particles inside the Layer, order the existing particles to destroy themselves
 and stop the layer animation loop. Essentially this method clears the memory used by particles
 and stops the resource hogging animation loop. Only the layer object will be left behind.
 
+Note that the destruction will happen asynchronously one by one, so depending on the amount of
+particles and iteration speed it might take seconds before all the particles have been destroyed.
+
+**Returns**: `Layer` - returns the layer instace for chaining  
 <a name="Distract.Layer#animate"></a>
 ###layer.animate()
-Start creating and destroying particles inside the Layer. Unpauses a paused animation, but
-does not enable it if enabled option is set to false.
+Start creating and destroying particles inside the Layer one by one. Unpauses a
+paused animation, but does not enable it if enabled option is set to false.
 
+**Returns**: `Layer` - returns the layer instace for chaining  

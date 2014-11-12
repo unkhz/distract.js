@@ -81,9 +81,17 @@
  * @type {Function}
  * @private
  */
-    var requestAnimationFrame = root.requestAnimationFrame || root.webkitRequestAnimationFrame || root.mozRequestAnimationFrame || function(cb) {
+    var requestAnimationFrame = root.requestAnimationFrame || root.webkitRequestAnimationFrame || root.mozRequestAnimationFrame || root.oRequestAnimationFrame || root.msRequestAnimationFrame || function(cb) {
         setTimeout(cb, 1);
     };
+    /**
+ * Cross-browser cancelAnimationFrame
+ *
+ * @external
+ * @type {Function}
+ * @private
+ */
+    var cancelAnimationFrame = root.cancelAnimationFrame || root.webkitCancelRequestAnimationFrame || root.mozCancelRequestAnimationFrame || root.oCancelRequestAnimationFrame || root.msCancelRequestAnimationFrame || clearTimeout;
     /**
  * Get vendor prefixed style property name
  *
@@ -358,9 +366,12 @@
                     _this.isDestroyed = true;
                     return;
                 }
-                requestAnimationFrame(step, _this.el);
+                _this._frameRequestId = requestAnimationFrame(step, _this.el);
             };
-            requestAnimationFrame(step, _this.el);
+            if (this._frameRequestId) {
+                cancelAnimationFrame(this._frameRequestId);
+            }
+            this._frameRequestId = requestAnimationFrame(step, _this.el);
         },
         /**
      * Start destroying the Particle instance
@@ -500,6 +511,7 @@
      * @param {Distract.LayerOptions} layerOpts Options object that defines the configuration of the Layer
      * @param {Distract.ParticleOptions} particleOpts Options object that defines the configuration of the Particles inside this Layer
      * @memberOf Distract.Layer#
+     * @return {Layer} returns the layer instace for chaining
      */
         configure: function(layerOpts, particleOpts) {
             extend(this.opts, layerOpts);
@@ -514,6 +526,7 @@
      * need to clear the resources used by the layer.
      *
      * @memberOf Distract.Layer#
+     * @return {Layer} returns the layer instace for chaining
      */
         pause: function() {
             this.paused = true;
@@ -524,7 +537,11 @@
      * and stop the layer animation loop. Essentially this method clears the memory used by particles
      * and stops the resource hogging animation loop. Only the layer object will be left behind.
      *
+     * Note that the destruction will happen asynchronously one by one, so depending on the amount of
+     * particles and iteration speed it might take seconds before all the particles have been destroyed.
+     *
      * @memberOf Distract.Layer#
+     * @return {Layer} returns the layer instace for chaining
      */
         destroy: function() {
             this._pauseWhenEmpty = true;
@@ -535,10 +552,11 @@
             return this;
         },
         /**
-     * Start creating and destroying particles inside the Layer. Unpauses a paused animation, but
-     * does not enable it if enabled option is set to false.
+     * Start creating and destroying particles inside the Layer one by one. Unpauses a
+     * paused animation, but does not enable it if enabled option is set to false.
      *
      * @memberOf Distract.Layer#
+     * @return {Layer} returns the layer instace for chaining
      */
         animate: function() {
             this.paused = false;
@@ -581,10 +599,13 @@
                     _this._pauseWhenEmpty = false;
                     _this.opts.enabled = true;
                 } else {
-                    requestAnimationFrame(createParticle);
+                    _this._frameRequestId = requestAnimationFrame(createParticle);
                 }
             };
-            requestAnimationFrame(createParticle);
+            if (this._frameRequestId) {
+                cancelAnimationFrame(this._frameRequestId);
+            }
+            this._frameRequestId = requestAnimationFrame(createParticle);
             return this;
         }
     });

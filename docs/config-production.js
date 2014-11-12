@@ -49,7 +49,7 @@ var buildtimeConfig = {
     gfm: true,
     tables: true,
     highlight: function (code, lang) {
-      return require('highlight.js').highlight(lang,code).value;
+      return lang ? require('highlight.js').highlight(lang,code).value : code;
     }
   },
   browserify: {
