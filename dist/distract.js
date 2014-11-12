@@ -25,7 +25,6 @@
     /**
  * @namespace Distract
  */
-    var Distract = {};
     var objectToString = Object.prototype.toString;
     ////////////////////////////////////////////////////
     // Utility methods /////////////////////////////////
@@ -349,9 +348,10 @@
                         _this.render();
                     }
                 } else if (_this.destructOpacity > 0) {
+                    var op = _this.state.style ? Number(_this.state.style.opacity || 1) : Number(_this.el.style.opacity);
                     _this.render();
-                    _this.destructOpacity -= Math.max(_this.state.style.opacity / 10, .005);
-                    _this.el.style.opacity = Math.max(0, Number(_this.state.style.opacity) * _this.destructOpacity);
+                    _this.destructOpacity -= Math.max(op / 10, .005);
+                    _this.el.style.opacity = Math.max(0, op * _this.destructOpacity);
                 } else {
                     _this.el.parentNode.removeChild(_this.el);
                     // stop, die and let gc clean up
@@ -386,6 +386,10 @@
                     el.style[getStyleProperty(prop)] = getValue(opts.style, prop);
                 }
                 this.initialized = true;
+            }
+            if (this.layer.paused) {
+                // do not animate if paused
+                return;
             }
             // Iterate visual state
             var state = opts.iterateState(this, this.state, this.opts);
@@ -502,16 +506,38 @@
             extend(this.particleOpts, particleOpts);
             this.particlesToBeDestroyed.concat(this.particles || []);
             this.particles = [];
+            return this;
         },
         /**
-     * Stop creating and destroying particles inside the Layer without destroying its state
+     * Pause the operation of the Layer and Partciles without destroying them. Note that this should only
+     * be used when there is an intention to continue the animation. Use destroy method instead if you
+     * need to clear the resources used by the layer.
+     *
      * @memberOf Distract.Layer#
      */
         pause: function() {
             this.paused = true;
+            return this;
         },
         /**
-     * Start creating and destroying particles inside the Layer
+     * Stop creating particles inside the Layer, order the existing particles to destroy themselves
+     * and stop the layer animation loop. Essentially this method clears the memory used by particles
+     * and stops the resource hogging animation loop. Only the layer object will be left behind.
+     *
+     * @memberOf Distract.Layer#
+     */
+        destroy: function() {
+            this._pauseWhenEmpty = true;
+            this.opts.enabled = false;
+            if (this.paused) {
+                this.animate();
+            }
+            return this;
+        },
+        /**
+     * Start creating and destroying particles inside the Layer. Unpauses a paused animation, but
+     * does not enable it if enabled option is set to false.
+     *
      * @memberOf Distract.Layer#
      */
         animate: function() {
@@ -550,9 +576,16 @@
                     p = _this.particlesToBeDestroyed.shift();
                     p.destroy();
                 }
-                requestAnimationFrame(createParticle);
+                if (_this._pauseWhenEmpty && _this.particlesToBeDestroyed.length === 0 && _this.particles.length === 0) {
+                    // destroyed, stop animation
+                    _this._pauseWhenEmpty = false;
+                    _this.opts.enabled = true;
+                } else {
+                    requestAnimationFrame(createParticle);
+                }
             };
             requestAnimationFrame(createParticle);
+            return this;
         }
     });
     return {

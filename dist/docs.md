@@ -31,6 +31,7 @@
     * [layer.particles](#Distract.Layer#particles)
     * [layer.configure(layerOpts, particleOpts)](#Distract.Layer#configure)
     * [layer.pause()](#Distract.Layer#pause)
+    * [layer.destroy()](#Distract.Layer#destroy)
     * [layer.animate()](#Distract.Layer#animate)
 
 <a name="Distract.SimpleIterationRule"></a>
@@ -270,6 +271,7 @@ that have proactively decided to destroy themselves.
   * [layer.particles](#Distract.Layer#particles)
   * [layer.configure(layerOpts, particleOpts)](#Distract.Layer#configure)
   * [layer.pause()](#Distract.Layer#pause)
+  * [layer.destroy()](#Distract.Layer#destroy)
   * [layer.animate()](#Distract.Layer#animate)
 
 <a name="new_Distract.Layer"></a>
@@ -295,9 +297,18 @@ Configure the Layer instance
 
 <a name="Distract.Layer#pause"></a>
 ###layer.pause()
-Stop creating and destroying particles inside the Layer without destroying its state
+Pause the operation of the Layer and Partciles without destroying them. Note that this should only
+be used when there is an intention to continue the animation. Use destroy method instead if you
+need to clear the resources used by the layer.
+
+<a name="Distract.Layer#destroy"></a>
+###layer.destroy()
+Stop creating particles inside the Layer, order the existing particles to destroy themselves
+and stop the layer animation loop. Essentially this method clears the memory used by particles
+and stops the resource hogging animation loop. Only the layer object will be left behind.
 
 <a name="Distract.Layer#animate"></a>
 ###layer.animate()
-Start creating and destroying particles inside the Layer
+Start creating and destroying particles inside the Layer. Unpauses a paused animation, but
+does not enable it if enabled option is set to false.
 
