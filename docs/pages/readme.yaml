@@ -4,7 +4,7 @@ abbr: Readme
 isFrontPage: true
 ord: 1
 styles:
-  - distract
+  - docs
 features:
   - content
 contentFromFile: ../../README.md

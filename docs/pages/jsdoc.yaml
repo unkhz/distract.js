@@ -3,7 +3,7 @@ title: API Documentation
 abbr: API
 ord: 2
 styles:
-  - distract
+  - docs
 features:
   - content
 contentFromFile: ../../dist/docs.md

@@ -48,8 +48,8 @@ var buildtimeConfig = {
   markdown: {
     gfm: true,
     tables: true,
-    highlight: function (code) {
-      return require('highlight.js').highlightAuto(code).value;
+    highlight: function (code, lang) {
+      return require('highlight.js').highlight(lang,code).value;
     }
   },
   browserify: {
