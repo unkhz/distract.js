@@ -365,6 +365,10 @@ var Particle = function(props) {
  *
  * Example:
  *
+ * var particleState = {
+ *     attributes: {
+ *         'class': 'is-open'
+ *     },
  *     style: {
  *         width:[100,'%'],
  *         color:['rgb(255,255,255)',''],
@@ -374,6 +378,7 @@ var Particle = function(props) {
  *             rotateY: [180,'deg']
  *         }
  *     }
+ * }
  *
  * @typedef ParticleState
  * @memberOf Distract
@@ -389,28 +394,21 @@ extend(Particle.prototype, {
      */
     animate: function() {
         var _this = this;
-        var step = function(){
-            if ( !_this.destruct ) {
-                if ( !_this.initialized || Math.random() < _this.opts.iterationSpeed ) {
-                    _this.render();
-                }
-            } else if ( _this.destructOpacity > 0 ) {
-                var op = _this.state.style ? Number(_this.state.style.opacity||1) : Number(_this.el.style.opacity);
+        if ( !_this.destruct ) {
+            if ( !_this.initialized || Math.random() < _this.opts.iterationSpeed ) {
                 _this.render();
-                _this.destructOpacity -= Math.max(op/10, 0.005);
-                _this.el.style.opacity = Math.max(0, op * _this.destructOpacity);
-            } else {
-                _this.el.parentNode.removeChild(_this.el);
-                // stop, die and let gc clean up
-                _this.isDestroyed = true;
-                return;
             }
-            _this._frameRequestId = requestAnimationFrame(step, _this.el);
-        };
-        if ( this._frameRequestId ) {
-            cancelAnimationFrame(this._frameRequestId);
+        } else if ( _this.destructOpacity > 0 ) {
+            var op = _this.state.style ? Number(_this.state.style.opacity||1) : Number(_this.el.style.opacity);
+            _this.render();
+            _this.destructOpacity -= Math.max(op/10, 0.005);
+            _this.el.style.opacity = Math.max(0, op * _this.destructOpacity);
+        } else {
+            _this.el.parentNode.removeChild(_this.el);
+            // stop, die and let gc clean up
+            _this.isDestroyed = true;
+            return;
         }
-        this._frameRequestId = requestAnimationFrame(step, _this.el);
     },
 
     /**
@@ -666,6 +664,10 @@ extend(Layer.prototype, {
                 _this._pauseWhenEmpty = false;
                 _this.opts.enabled = true;
             } else {
+                // animate all
+                _this.particles.map(function(particle){
+                    particle.animate();
+                });
                 _this._frameRequestId = requestAnimationFrame(createParticle);
             }
         };
